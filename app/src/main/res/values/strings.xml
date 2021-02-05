@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">NasaLibKotlin</string>
+    <string name="media_preview">media preview</string>
+    <string name="current_image">current image</string>
+    <string name="menu_about">About app</string>
+    <string name="search_button">search button</string>
+    <string name="settings_button">settings button</string>
+    <string name="about_button">about button</string>
+    <string name="CP_title">Title:\n</string>
+    <string name="sec_creator">Sec creator:\n</string>
+    <string name="date_creation">Date:\n</string>
+    <string name="about_app">About app</string>
+    <string name="about_app_text">This application is designed\nas a test item.\n\nThe Nasa API is used to get
+        media.\nhttps://api.nasa.gov/\n\nDeveloper Oleg Penkin.\nGit: https://github.com/Daganep.\nE-mail: haridus@yandex.ru
+    </string>
+    <string name="nasa_logo">Nasa logo</string>
+    <string name="not_work_button">Sorry, button doesn\'t work!</string>
+    <string name="empty_result">No results were found for this request.\nTry using other keywords.</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

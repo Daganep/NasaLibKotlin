@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="norm_padding">2dp</dimen>
+    <dimen name="norm_margin">4dp</dimen>
+    <dimen name="card_height">150dp</dimen>
+    <dimen name="CP_text_margin">8dp</dimen>
+    <dimen name="CP_padding">16dp</dimen>
+    <dimen name="logo_right_margin">10dp</dimen>
+    <dimen name="logo_side">100dp</dimen>
+</resources>

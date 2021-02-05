@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/stars">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.NasaLib.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/aboutToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/toolbar_color"
+            app:title="@string/about_app"
+            app:popupTheme="@style/Theme.NasaLib.PopupOverlay"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            style="@style/AboutText"
+            android:text="@string/about_app_text"/>
+
+        <ImageView
+            android:layout_width="@dimen/logo_side"
+            android:layout_height="@dimen/logo_side"
+            android:layout_marginTop="@dimen/CP_padding"
+            android:layout_marginEnd="@dimen/logo_right_margin"
+            android:contentDescription="@string/nasa_logo"
+            android:src="@drawable/nasa_logo"/>
+    </LinearLayout>
+
+</FrameLayout>

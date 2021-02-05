@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/stars">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Theme.NasaLib.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/cpToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/toolbar_color"
+            app:popupTheme="@style/Theme.NasaLib.PopupOverlay"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/CP_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/black"
+            android:padding="@dimen/norm_padding">
+
+            <ImageView
+                android:id="@+id/currentPhotoIV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/current_image">
+            </ImageView>
+
+            <TextView
+                android:id="@+id/CPTitleTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CurrentPhotoText">
+            </TextView>
+            <TextView
+                android:id="@+id/CPDateTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CurrentPhotoText">
+            </TextView>
+            <TextView
+                android:id="@+id/CPCreatorTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CurrentPhotoText"
+                android:layout_marginBottom="@dimen/CP_text_margin">
+            </TextView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</FrameLayout>
