@@ -2,7 +2,7 @@ package com.geekbrains.nasalibkotlin.view.main
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageView
