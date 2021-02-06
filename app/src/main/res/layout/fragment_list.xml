@@ -24,11 +24,19 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id= "@+id/mainRV"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         android:paddingStart="@dimen/norm_padding"
         android:paddingEnd="@dimen/norm_padding"/>
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:id="@+id/listPB"
+        android:layout_width="@dimen/logo_side"
+        android:layout_height="@dimen/logo_side"
+        android:layout_gravity="center"
+        style="?android:progressBarStyle"/>
 
     <TextView
         android:id="@+id/emptyResult"

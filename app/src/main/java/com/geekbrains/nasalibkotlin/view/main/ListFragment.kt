@@ -72,6 +72,8 @@ class ListFragment : MvpAppCompatFragment(), ListView {
         val searchView: SearchView = searchViewItem?.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
+                binding.listPB.visibility = View.VISIBLE
+                binding.mainRV.visibility = View.GONE
                 listPresenter.requestFromServer(query)
                 return false
             }
@@ -108,9 +110,11 @@ class ListFragment : MvpAppCompatFragment(), ListView {
     }
 
     private fun emptyResultMessage(empty: Boolean) {
+        binding.listPB.visibility = View.GONE
         if (empty) {
             binding.emptyResult.visibility = View.VISIBLE
             binding.mainRV.visibility = View.GONE
+
         } else {
             binding.emptyResult.visibility = View.GONE
             binding.mainRV.visibility = View.VISIBLE
