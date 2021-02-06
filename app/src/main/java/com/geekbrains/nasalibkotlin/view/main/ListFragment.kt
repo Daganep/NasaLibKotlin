@@ -110,12 +110,6 @@ class ListFragment : MvpAppCompatFragment(), ListView {
             findNavController().navigate(R.id.action_listFragment_to_aboutFragment)
             false
         }
-
-        val settingsItem = menu.findItem(R.id.menu_settings)
-        settingsItem.setOnMenuItemClickListener { _ ->
-            Toast.makeText(context, R.string.not_work_button, Toast.LENGTH_SHORT).show()
-            false
-        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
