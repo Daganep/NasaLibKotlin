@@ -7,5 +7,5 @@ import retrofit2.http.Query
 
 interface RetrofitService {
     @GET("search")
-    fun getMedia(@Query("q") q: String, @Query("page")page: String): Observable<NasaResponse>
+    fun getMedia(@Query("q") q: String?, @Query("page")page: String): Observable<NasaResponse>
 }

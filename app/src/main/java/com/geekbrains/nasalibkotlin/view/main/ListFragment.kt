@@ -2,6 +2,7 @@ package com.geekbrains.nasalibkotlin.view.main
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageView
@@ -22,7 +23,7 @@ class ListFragment : MvpAppCompatFragment(), ListView {
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
     private var columns = 2
-    private val stdQuery = "hubble"
+    private var lastQuery: String? = ""
     private var listRVA: ListRVA? = null
     @InjectPresenter
     lateinit var listPresenter : ListPresenter
@@ -39,10 +40,17 @@ class ListFragment : MvpAppCompatFragment(), ListView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+        init()
+    }
+
+    private fun init(){
         columns = if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) 3 else 2
         initToolbar()
         initRecycler()
-        listPresenter.requestFromServer(stdQuery)
+        loadLastKey()
+        val currentQuery = getString(R.string.std_keyword)
+        if (lastQuery == getString(R.string.empty_string)) lastQuery = currentQuery
+        listPresenter.requestFromServer(lastQuery)
     }
 
     private fun initRecycler() {
@@ -54,6 +62,7 @@ class ListFragment : MvpAppCompatFragment(), ListView {
 
     override fun updateRecyclerView(nasaResponse: NasaResponse?) {
         if (nasaResponse?.collection?.items != null) {
+            if(nasaResponse.collection.items.isNotEmpty())saveLastKey(lastQuery)
             nasaResponse.collection.items.let { emptyResultMessage(it.isEmpty()) }
             nasaResponse.collection.items.let { listRVA!!.setMedia(it) }
             listRVA!!.notifyDataSetChanged()
@@ -75,6 +84,7 @@ class ListFragment : MvpAppCompatFragment(), ListView {
                 binding.listPB.visibility = View.VISIBLE
                 binding.mainRV.visibility = View.GONE
                 listPresenter.requestFromServer(query)
+                lastQuery = query
                 return false
             }
 
@@ -119,6 +129,18 @@ class ListFragment : MvpAppCompatFragment(), ListView {
             binding.emptyResult.visibility = View.GONE
             binding.mainRV.visibility = View.VISIBLE
         }
+    }
+
+    private fun saveLastKey(key: String?) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+        val editor = prefs.edit()
+        editor.putString(getString(R.string.last_key), key)
+        editor.apply()
+    }
+
+    private fun loadLastKey(){
+        val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
+        lastQuery = prefs.getString(getString(R.string.last_key), getString(R.string.empty_string))
     }
 
     override fun onDestroyView() {

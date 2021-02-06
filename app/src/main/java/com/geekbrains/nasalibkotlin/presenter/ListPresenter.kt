@@ -21,7 +21,7 @@ class ListPresenter : MvpPresenter<ListView>() {
 
     @Inject lateinit var retrofitApi: RetrofitApi
     private lateinit var disposable : Disposable
-    fun requestFromServer(query: String){
+    fun requestFromServer(query: String?){
         val single: Observable<NasaResponse> = retrofitApi.requestServer(query)
         disposable = single.observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ emitter: NasaResponse? -> viewState.updateRecyclerView(emitter) },

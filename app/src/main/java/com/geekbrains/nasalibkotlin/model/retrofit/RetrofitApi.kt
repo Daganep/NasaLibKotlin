@@ -12,7 +12,7 @@ class RetrofitApi {
     private val baseUrl = "https://images-api.nasa.gov/"
     private lateinit var api : RetrofitService
 
-    public fun requestServer(q: String): Observable<NasaResponse>{
+    public fun requestServer(q: String?): Observable<NasaResponse>{
         val gson = GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create()
