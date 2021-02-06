@@ -11,10 +11,12 @@
     <string name="date_creation">Date:\n</string>
     <string name="about_app">About app</string>
     <string name="about_app_text">This application is designed\nas a test item.\n\nThe Nasa API is used to get
-        media.\nhttps://api.nasa.gov/\n\nDeveloper Oleg Penkin.\nGit: https://github.com/Daganep.\nE-mail: haridus@yandex.ru
+        media.\nhttps://api.nasa.gov/\n\nProject on git:\nJava\nhttps://github.com/Daganep/NasaLib\n\nKotlin\nhttps://github.com/Daganep/NasaLibKotlin\n\nDeveloper Oleg Penkin.\nE-mail: haridus@yandex.ru
     </string>
     <string name="nasa_logo">Nasa logo</string>
     <string name="not_work_button">Sorry, button doesn\'t work!</string>
     <string name="empty_result">No results were found for this request.\nTry using other keywords.</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="last_key">Last key</string>
+    <string name="empty_string">empty string</string>
+    <string name="std_keyword">hubble</string>
 </resources>
