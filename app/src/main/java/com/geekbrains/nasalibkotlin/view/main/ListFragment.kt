@@ -6,14 +6,13 @@ import androidx.preference.PreferenceManager
 import android.view.*
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.geekbrains.nasalibkotlin.R
 import com.geekbrains.nasalibkotlin.databinding.FragmentListBinding
-import com.geekbrains.nasalibkotlin.model.entity.NasaResponse
+import com.geekbrains.nasalibkotlin.model.entity.Element
 import com.geekbrains.nasalibkotlin.presenter.ListPresenter
 import moxy.MvpAppCompatFragment
 import moxy.presenter.InjectPresenter
@@ -50,7 +49,7 @@ class ListFragment : MvpAppCompatFragment(), ListView {
         loadLastKey()
         val currentQuery = getString(R.string.std_keyword)
         if (lastQuery == getString(R.string.empty_string)) lastQuery = currentQuery
-        listPresenter.requestFromServer(lastQuery)
+        listPresenter.requestFromDB()
     }
 
     private fun initRecycler() {
@@ -60,13 +59,18 @@ class ListFragment : MvpAppCompatFragment(), ListView {
         binding.mainRV.adapter = listRVA
     }
 
-    override fun updateRecyclerView(nasaResponse: NasaResponse?) {
-        if (nasaResponse?.collection?.items != null) {
-            if(nasaResponse.collection.items.isNotEmpty())saveLastKey(lastQuery)
-            nasaResponse.collection.items.let { emptyResultMessage(it.isEmpty()) }
-            nasaResponse.collection.items.let { listRVA!!.setMedia(it) }
+    override fun updateRecyclerView(elements: List<Element?>?) {
+        if (elements != null) {
+            if(elements.isNotEmpty())saveLastKey(lastQuery)
+            emptyResultMessage(elements.isEmpty())
+            listRVA!!.setMedia(elements)
             listRVA!!.notifyDataSetChanged()
         }
+    }
+
+    override fun checkDB(elements: List<Element?>?) {
+        if(!elements.isNullOrEmpty())updateRecyclerView(elements)
+        else listPresenter.requestFromServer(lastQuery)
     }
 
     private fun initToolbar(){
@@ -135,6 +139,11 @@ class ListFragment : MvpAppCompatFragment(), ListView {
     private fun loadLastKey(){
         val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
         lastQuery = prefs.getString(getString(R.string.last_key), getString(R.string.empty_string))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        listPresenter.saveLastResult()
     }
 
     override fun onDestroyView() {

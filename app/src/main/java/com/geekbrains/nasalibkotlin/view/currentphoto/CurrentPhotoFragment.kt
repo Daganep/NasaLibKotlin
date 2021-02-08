@@ -8,14 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.geekbrains.nasalibkotlin.R
 import com.geekbrains.nasalibkotlin.databinding.FragmentCPBinding
-import com.geekbrains.nasalibkotlin.model.entity.CEInfo
+import com.geekbrains.nasalibkotlin.model.entity.Element
 import com.geekbrains.nasalibkotlin.utils.ImageSetter
 
 class CurrentPhotoFragment : Fragment() {
 
     private var _binding: FragmentCPBinding? = null
     private val binding get() = _binding!!
-    private lateinit var ceInfo: CEInfo
+    private lateinit var element: Element
     private lateinit var imageSetter: ImageSetter
 
     override fun onCreateView(
@@ -31,18 +31,18 @@ class CurrentPhotoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         imageSetter = ImageSetter()
-        ceInfo = arguments?.getSerializable("CP") as CEInfo
-        setData(ceInfo)
+        element = arguments?.getSerializable("CP") as Element
+        setData(element)
     }
 
-    private fun setData(ceInfo: CEInfo){
-        (activity as AppCompatActivity).supportActionBar?.title = ceInfo.title
+    private fun setData(element: Element){
+        (activity as AppCompatActivity).supportActionBar?.title = element.title
         var creator = "unknown"
-        if(!ceInfo.creator.isNullOrEmpty()) creator = ceInfo.creator
-        imageSetter.setImage(ceInfo.URL, binding.currentPhotoIV)
-        binding.CPTitleTV.text = String.format("%s%s", getString(R.string.CP_title), ceInfo.title)
+        if(!element.creator.isNullOrEmpty()) creator = element.creator!!
+        imageSetter.setImage(element.URL, binding.currentPhotoIV)
+        binding.CPTitleTV.text = String.format("%s%s", getString(R.string.CP_title), element.title)
         binding.CPCreatorTV.text = String.format("%s%s", getString(R.string.sec_creator), creator)
-        binding.CPDateTV.text = String.format("%s%s", getString(R.string.date_creation), ceInfo.date)
+        binding.CPDateTV.text = String.format("%s%s", getString(R.string.date_creation), element.date)
     }
 
     private fun initToolbar(){

@@ -26,7 +26,7 @@
             app:destination="@id/listFragment" />
         <argument
             android:name="CP"
-            app:argType="com.geekbrains.nasalibkotlin.model.entity.CEInfo" />
+            app:argType="com.geekbrains.nasalibkotlin.model.entity.Element" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
