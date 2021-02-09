@@ -10,5 +10,5 @@ interface ListView : MvpView {
     fun updateRecyclerView(elements: List<Element?>?)
 
     @StateStrategyType(value = AddToEndSingleStrategy::class)
-    fun checkDB(elements: List<Element?>?)
+    fun showError(msg: Int)
 }

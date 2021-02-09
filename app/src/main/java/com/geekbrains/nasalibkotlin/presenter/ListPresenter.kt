@@ -1,12 +1,12 @@
 package com.geekbrains.nasalibkotlin.presenter
 
 import android.util.Log
+import com.geekbrains.nasalibkotlin.R
 import com.geekbrains.nasalibkotlin.di.App
 import com.geekbrains.nasalibkotlin.model.database.AppDatabase
 import com.geekbrains.nasalibkotlin.model.database.ElementDao
 import com.geekbrains.nasalibkotlin.model.entity.Element
 import com.geekbrains.nasalibkotlin.model.entity.NasaResponse
-import com.geekbrains.nasalibkotlin.model.retrofit.ErrorInterceptor
 import com.geekbrains.nasalibkotlin.model.retrofit.RetrofitApi
 import com.geekbrains.nasalibkotlin.view.main.ListView
 import io.reactivex.Observable
@@ -15,6 +15,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import moxy.InjectViewState
 import moxy.MvpPresenter
+import java.io.IOException
 import java.util.*
 import javax.inject.Inject
 
@@ -34,15 +35,22 @@ class ListPresenter : MvpPresenter<ListView>() {
         subscriptions = CompositeDisposable()
     }
 
+    fun requestData(query: String?) {
+        requestFromDB(query)
+    }
+
     fun requestFromServer(query: String?){
         val single: Observable<NasaResponse> = retrofitApi.requestServer(query)
         subscriptions.add(
-                single.observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ emitter ->
+                single.observeOn(AndroidSchedulers.mainThread()).subscribe(
+                        { emitter ->
                             elements = itemsToElement(emitter)
-                            viewState.updateRecyclerView(elements)
-                        },
-                                { throwable -> Log.e(TAG, "onError$throwable") })
+                            if (itemsToElement(emitter).isEmpty()) viewState.showError(R.string.empty_result)
+                            else viewState.updateRecyclerView(elements) },
+                        { throwable ->
+                            if (throwable is IOException) viewState.showError(R.string.load_info_network_error)
+                            else viewState.showError(R.string.load_info_server_error)
+                            Log.e(TAG, "onError$throwable") })
         )
     }
 
@@ -58,14 +66,15 @@ class ListPresenter : MvpPresenter<ListView>() {
         return info
     }
 
-    fun requestFromDB(){
+    private fun requestFromDB(query: String?){
         subscriptions.add(
                 elementDao!!.getAll()?.subscribeOn(Schedulers.io())!!
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 { elements1 ->
                                     elements = elements1
-                                    viewState.checkDB(elements1)
+                                    if (elements1 != null) viewState.updateRecyclerView(elements1)
+                                    else requestFromServer(query)
                                 },
                                 { throwable -> Log.e(TAG, "onError$throwable") })
         )

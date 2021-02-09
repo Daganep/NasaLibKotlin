@@ -19,4 +19,6 @@
     <string name="last_key">Last key</string>
     <string name="empty_string">empty string</string>
     <string name="std_keyword">hubble</string>
+    <string name="load_info_network_error">Network connection error.\nPlease, check network settings.</string>
+    <string name="load_info_server_error">Server connection error.\nPlease, try again later.</string>
 </resources>

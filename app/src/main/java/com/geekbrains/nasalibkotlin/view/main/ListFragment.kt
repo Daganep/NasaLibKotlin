@@ -49,7 +49,7 @@ class ListFragment : MvpAppCompatFragment(), ListView {
         loadLastKey()
         val currentQuery = getString(R.string.std_keyword)
         if (lastQuery == getString(R.string.empty_string)) lastQuery = currentQuery
-        listPresenter.requestFromDB()
+        listPresenter.requestData(lastQuery)
     }
 
     private fun initRecycler() {
@@ -61,16 +61,18 @@ class ListFragment : MvpAppCompatFragment(), ListView {
 
     override fun updateRecyclerView(elements: List<Element?>?) {
         if (elements != null) {
-            if(elements.isNotEmpty())saveLastKey(lastQuery)
-            emptyResultMessage(elements.isEmpty())
+            showRV()
+            saveLastKey(lastQuery)
             listRVA!!.setMedia(elements)
             listRVA!!.notifyDataSetChanged()
         }
     }
 
-    override fun checkDB(elements: List<Element?>?) {
-        if(!elements.isNullOrEmpty())updateRecyclerView(elements)
-        else listPresenter.requestFromServer(lastQuery)
+    override fun showError(msg: Int) {
+        binding.listPB.visibility = View.GONE
+        binding.mainRV.visibility = View.GONE
+        binding.emptyResult.setText(msg)
+        binding.emptyResult.visibility = View.VISIBLE
     }
 
     private fun initToolbar(){
@@ -85,8 +87,7 @@ class ListFragment : MvpAppCompatFragment(), ListView {
         val searchView: SearchView = searchViewItem?.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                binding.listPB.visibility = View.VISIBLE
-                binding.mainRV.visibility = View.GONE
+                showLoader()
                 listPresenter.requestFromServer(query)
                 lastQuery = query
                 return false
@@ -117,16 +118,16 @@ class ListFragment : MvpAppCompatFragment(), ListView {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun emptyResultMessage(empty: Boolean) {
-        binding.listPB.visibility = View.GONE
-        if (empty) {
-            binding.emptyResult.visibility = View.VISIBLE
-            binding.mainRV.visibility = View.GONE
+    private fun showLoader() {
+        binding.emptyResult.visibility = View.GONE
+        binding.mainRV.visibility = View.GONE
+        binding.listPB.visibility = View.VISIBLE
+    }
 
-        } else {
-            binding.emptyResult.visibility = View.GONE
-            binding.mainRV.visibility = View.VISIBLE
-        }
+    private fun showRV(){
+        binding.emptyResult.visibility = View.GONE
+        binding.listPB.visibility = View.GONE
+        binding.mainRV.visibility = View.VISIBLE
     }
 
     private fun saveLastKey(key: String?) {
