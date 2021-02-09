@@ -6,6 +6,7 @@ import com.geekbrains.nasalibkotlin.model.database.AppDatabase
 import com.geekbrains.nasalibkotlin.model.database.ElementDao
 import com.geekbrains.nasalibkotlin.model.entity.Element
 import com.geekbrains.nasalibkotlin.model.entity.NasaResponse
+import com.geekbrains.nasalibkotlin.model.retrofit.ErrorInterceptor
 import com.geekbrains.nasalibkotlin.model.retrofit.RetrofitApi
 import com.geekbrains.nasalibkotlin.view.main.ListView
 import io.reactivex.Observable
@@ -25,6 +26,7 @@ class ListPresenter : MvpPresenter<ListView>() {
     private var subscriptions : CompositeDisposable
     private val elementDao: ElementDao?
     private var elements: List<Element?>? = null
+    private val TAG: String = "Error"
 
     init {
         App.appComponent.inject(this)
@@ -35,12 +37,12 @@ class ListPresenter : MvpPresenter<ListView>() {
     fun requestFromServer(query: String?){
         val single: Observable<NasaResponse> = retrofitApi.requestServer(query)
         subscriptions.add(
-            single.observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ emitter ->
-                    elements = itemsToElement(emitter)
-                    viewState.updateRecyclerView(elements)
-                },
-                    { throwable -> Log.e("Error", "onError$throwable") })
+                single.observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ emitter ->
+                            elements = itemsToElement(emitter)
+                            viewState.updateRecyclerView(elements)
+                        },
+                                { throwable -> Log.e(TAG, "onError$throwable") })
         )
     }
 
@@ -58,34 +60,34 @@ class ListPresenter : MvpPresenter<ListView>() {
 
     fun requestFromDB(){
         subscriptions.add(
-            elementDao!!.getAll()?.subscribeOn(Schedulers.io())!!
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { elements1 ->
-                        elements = elements1
-                        viewState.checkDB(elements1)
-                    },
-                    { throwable -> Log.e("Error", "onError$throwable") })
+                elementDao!!.getAll()?.subscribeOn(Schedulers.io())!!
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                { elements1 ->
+                                    elements = elements1
+                                    viewState.checkDB(elements1)
+                                },
+                                { throwable -> Log.e(TAG, "onError$throwable") })
         )
     }
 
     private fun putToDB(){
         if(elements?.size!! > 0){
             subscriptions.add(
-                elementDao!!.insertList(elements)!!
-                    .subscribeOn(Schedulers.io())
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .subscribe { throwable -> Log.e("Error", "onError$throwable") })
+                    elementDao!!.insertList(elements)!!
+                            .subscribeOn(Schedulers.io())
+                            .subscribeOn(AndroidSchedulers.mainThread())
+                            .subscribe { throwable -> Log.e(TAG, "onError$throwable") })
         }
     }
 
     fun saveLastResult(){
         subscriptions.add(
-            elementDao!!.deleteAll()!!
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ putToDB() },
-                    { throwable -> Log.e("Error", "onError$throwable") })
+                elementDao!!.deleteAll()!!
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ putToDB() },
+                                { throwable -> Log.e(TAG, "onError$throwable") })
         )
     }
 
