@@ -11,13 +11,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitApi {
     private val baseUrl = "https://images-api.nasa.gov/"
-    private lateinit var api : RetrofitService
+    private var api : RetrofitService
+    private var client: OkHttpClient
 
-    fun requestServer(q: String?): Observable<NasaResponse>{
+    init {
         val gson = GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create()
         val gsonConverterFactory = GsonConverterFactory.create(gson)
+
+        client = OkHttpClient.Builder()
+                .addInterceptor(ErrorInterceptor())
+                .build()
+
         api = Retrofit.Builder()
                 .client(client)
                 .baseUrl(baseUrl)
@@ -25,10 +31,9 @@ class RetrofitApi {
                 .addConverterFactory(gsonConverterFactory)
                 .build()
                 .create(RetrofitService::class.java)
-        return api.getMedia(q, "1").subscribeOn(Schedulers.io())
     }
 
-    var client: OkHttpClient = OkHttpClient.Builder()
-            .addInterceptor(ErrorInterceptor())
-            .build()
+    fun requestServer(q: String?): Observable<NasaResponse>{
+        return api.getMedia(q, "1").subscribeOn(Schedulers.io())
+    }
 }

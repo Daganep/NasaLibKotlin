@@ -31,13 +31,13 @@ class CurrentPhotoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar()
         imageSetter = ImageSetter()
-        element = arguments?.getSerializable("CP") as Element
+        element = arguments?.getSerializable(getString(R.string.serializable_key_for_CP)) as Element
         setData(element)
     }
 
     private fun setData(element: Element){
         (activity as AppCompatActivity).supportActionBar?.title = element.title
-        var creator = "unknown"
+        var creator = getString(R.string.unknown)
         if(!element.creator.isNullOrEmpty()) creator = element.creator!!
         imageSetter.setImage(element.URL, binding.currentPhotoIV)
         binding.CPTitleTV.text = String.format("%s%s", getString(R.string.CP_title), element.title)
