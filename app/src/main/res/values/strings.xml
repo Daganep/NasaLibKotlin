@@ -11,7 +11,7 @@
     <string name="date_creation">Date:\n</string>
     <string name="about_app">About app</string>
     <string name="about_app_text">This application is designed\nas a test item.\n\nThe Nasa API is used to get
-        media.\nhttps://api.nasa.gov/\n\nProject on git:\nJava\nhttps://github.com/Daganep/NasaLib\n\nKotlin\nhttps://github.com/Daganep/NasaLibKotlin\n\nDeveloper Oleg Penkin.\nE-mail: haridus@yandex.ru
+        media.\nhttps://api.nasa.gov/\n\nProject on git:\nJava\nhttps://github.com/Daganep/NasaLibJava\n\nKotlin\nhttps://github.com/Daganep/NasaLibKotlin\n\nDeveloper Oleg Penkin.\nE-mail: haridus@yandex.ru
     </string>
     <string name="nasa_logo">Nasa logo</string>
     <string name="not_work_button">Sorry, button doesn\'t work!</string>
