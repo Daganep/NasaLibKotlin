@@ -90,6 +90,7 @@ class ListFragment : MvpAppCompatFragment(), ListView {
                 showLoader()
                 listPresenter.requestFromServer(query)
                 lastQuery = query
+                binding.mainRV.smoothScrollToPosition(0)
                 return false
             }
 
