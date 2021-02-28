@@ -73,7 +73,7 @@ class ListPresenter : MvpPresenter<ListView>() {
                         .subscribe(
                                 { elements1 ->
                                     elements = elements1
-                                    if (elements1 != null) viewState.updateRecyclerView(elements1)
+                                    if (elements1?.size != 0) viewState.updateRecyclerView(elements1)
                                     else requestFromServer(query)
                                 },
                                 { throwable -> Log.e(TAG, "onError$throwable") })
