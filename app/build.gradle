@@ -78,14 +78,14 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.21'
 
     //Navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.4'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.4'
 
     //Dynamic Feature Module Support
-    implementation 'androidx.navigation:navigation-dynamic-features-fragment:2.3.3'
+    implementation 'androidx.navigation:navigation-dynamic-features-fragment:2.3.4'
 
     //Testing Navigation
-    implementation 'androidx.navigation:navigation-testing:2.3.3'
+    implementation 'androidx.navigation:navigation-testing:2.3.4'
 
     //Use pref
     implementation 'androidx.preference:preference-ktx:1.1.1'
